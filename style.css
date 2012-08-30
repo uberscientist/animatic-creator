@@ -1,0 +1,38 @@
+body {
+  font-family: sans-serif;
+}
+
+audio {
+  width: 640px;
+  margin: 0px auto;
+  display: block;
+}
+
+div#pagewrap {
+  width: 800px;
+  margin: 20px auto;
+}
+
+div#timeline-div {
+  width: 800px;
+}
+
+table#timeline-table {
+  width: 500px;
+  margin: 10px auto;
+}
+
+table#timeline-table td {
+  border-top: solid 1px black;
+  text-align: center;
+}
+
+div#view {
+  width: 640px;
+  height: 400px;
+  margin: 0px auto;
+}
+
+div#preload {
+  display: none;
+}

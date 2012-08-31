@@ -13,7 +13,16 @@ window.saveFrame = () ->
   data_url = document.getElementById("draw").toDataURL()
   name = document.getElementById("save-frame-name").value
   window.frames[name] = data_url
-  console.log window.frames
+  createFrameList()
+
+createFrameList = () ->
+  select = document.getElementById("insert-pic-select")
+  select.options.length = 0 #clear options
+
+  for name of window.frames #repopulate options
+    select.options[select.options.length] = new Option(name, name)
+
+  select.value = name #default to created frame
 
 window.initCanvas = () ->
   canvas = document.getElementById("draw")

@@ -9,7 +9,13 @@ window.displayAnimatic = () ->
   document.getElementById("view").style.display = ""
   document.getElementById("draw-container").style.display = "none"
 
-window.createCanvas = () ->
+window.saveFrame = () ->
+  data_url = document.getElementById("draw").toDataURL()
+  name = document.getElementById("save-frame-name").value
+  window.frames[name] = data_url
+  console.log window.frames
+
+window.initCanvas = () ->
   canvas = document.getElementById("draw")
   context = canvas.getContext("2d")
   drawing = false

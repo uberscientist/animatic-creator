@@ -9,10 +9,16 @@ window.displayAnimatic = () ->
   document.getElementById("view").style.display = ""
   document.getElementById("draw-container").style.display = "none"
 
+clearCanvas = () ->
+  canvas = document.getElementById("draw")
+  context = canvas.getContext("2d")
+  context.clearRect(0, 0, canvas.width, canvas.height)
+
 window.saveFrame = () ->
   data_url = document.getElementById("draw").toDataURL()
   name = document.getElementById("save-frame-name").value
   window.frames[name] = data_url
+  clearCanvas()
   createFrameList()
 
 createFrameList = () ->

@@ -2,7 +2,7 @@ body {
   font-family: sans-serif;
 }
 
-audio {
+audio#audio {
   width: 640px;
 }
 
@@ -20,7 +20,7 @@ div#pagewrap {
 
 div#draw-container {
   width: 640px;
-  height: 400px;
+  height: 434px;
   display: none;
 }
 
@@ -40,6 +40,7 @@ table#timeline-table td {
 
 div#view-container {
   border-left: 1px black solid;
+  border-right: 1px black solid;
   width: 640px;
   margin: 0px auto;
 }

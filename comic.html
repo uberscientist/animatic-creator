@@ -3,7 +3,6 @@
 <head>
   <title>Audio Comic Experiment</title>
   <link rel="stylesheet" type="text/css" href="style.css" />
-  <script src="kinetic-v4.0.1.min.js"></script>
   <script src="draw.js"></script>
   <script src="timeline.js"></script>
 </head>
@@ -13,7 +12,11 @@
       <a class='tab' href='#' onclick='window.displayAnimatic()'>View Animatic</a>
       <a class='tab' href='#' onclick='window.displayDraw()'>Draw Frame</a>
       <div id='view'></div>
-      <div id='draw-container'></div>
+      <div id='draw-container'>
+        <canvas id='draw' width=640 height=400>Browser needs to support canvas</canvas>
+        <input id='save-frame-name' type="text"></input>
+        <button id='save-frame' onclick='window.saveFrame()'>Save Frame</button>
+      </div>
       <audio id="audio" preload="auto" controls>
         <source src="comic1.ogg" type="audio/ogg"/>
         <source src="comic1.mp3" type="audio/mpeg"/>

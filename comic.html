@@ -3,17 +3,22 @@
 <head>
   <title>Audio Comic Experiment</title>
   <link rel="stylesheet" type="text/css" href="style.css" />
+  <script src="kinetic-v4.0.1.min.js"></script>
+  <script src="draw.js"></script>
   <script src="timeline.js"></script>
 </head>
 <body>
   <div id='pagewrap'>
-    <div id='view'>
+    <div id='view-container'>
+      <a class='tab' href='#' onclick='window.displayAnimatic()'>View Animatic</a>
+      <a class='tab' href='#' onclick='window.displayDraw()'>Draw Frame</a>
+      <div id='view'></div>
+      <div id='draw-container'></div>
+      <audio id="audio" preload="auto" controls>
+        <source src="comic1.ogg" type="audio/ogg"/>
+        <source src="comic1.mp3" type="audio/mpeg"/>
+      </audio>
     </div>
-    <audio id="audio" preload="auto" controls>
-      <source src="comic1.ogg" type="audio/ogg"/>
-      <source src="comic1.mp3" type="audio/mpeg"/>
-    </audio>
-    <br/>
     <div id='timeline-div'>
     <select id='insert-pic-select'></select>
     <button id='insert-pic-button'>Add Frame</button>

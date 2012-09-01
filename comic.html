@@ -14,9 +14,12 @@
       <a class='tab' href='#'>Options</a>
       <div id='view'></div>
       <div id='draw-container'>
+        <canvas id='onion-canvas' width=640 height=400>Browser needs to support canvas</canvas>
         <canvas id='draw' width=640 height=400>Browser needs to support canvas</canvas>
+        <div id='canvas-block'></div>
         <input id='save-frame-name' type="text"></input>
         <button id='save-frame' onclick='window.saveFrame()'>Save Frame</button>
+        <input id='onion-toggle' type="checkbox"></input>
       </div>
       <audio id="audio" preload="auto" controls>
         <source src="comic1.ogg" type="audio/ogg"/>
@@ -24,8 +27,8 @@
       </audio>
     </div>
     <div id='timeline-div'>
-    <select id='insert-pic-select'></select>
-    <button id='insert-pic-button' onclick='window.addFrame()'>Add Frame</button>
+      <select id='insert-pic-select'></select>
+      <button id='insert-pic-button' onclick='window.addFrame()'>Add Frame</button>
       <table id='timeline-table'>
         <tr>
           <th>Thumb</th>

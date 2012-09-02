@@ -4,6 +4,7 @@
   <title>Audio Comic Experiment</title>
   <link rel="stylesheet" type="text/css" href="style.css" />
   <script src="draw.js"></script>
+  <script src="ui.js"></script>
   <script src="timeline.js"></script>
 </head>
 <body>
@@ -11,8 +12,9 @@
     <div id='view-container'>
       <a class='tab' href='#' onclick='window.displayAnimatic()'>View Animatic</a>
       <a class='tab' href='#' onclick='window.displayDraw()'>Draw Frame</a>
-      <a class='tab' href='#'>Options</a>
+      <a class='tab' href='#' onclick='window.displayOptions()'>Options</a>
       <div id='view'></div>
+
       <div id='draw-container'>
         <canvas id='onion-canvas' width=640 height=400>Browser needs to support canvas</canvas>
         <canvas id='draw' width=640 height=400>Browser needs to support canvas</canvas>
@@ -21,6 +23,12 @@
         <button id='save-frame' onclick='window.saveFrame()'>Save Frame</button>
         <input id='onion-toggle' type="checkbox"></input>
       </div>
+
+      <div id='options-container'>
+        <h2>Options</h2>
+        <p>Upload audio, save, load</p>
+      </div>
+
       <audio id="audio" preload="auto" controls>
         <source src="comic1.ogg" type="audio/ogg"/>
         <source src="comic1.mp3" type="audio/mpeg"/>

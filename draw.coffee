@@ -1,14 +1,3 @@
-#These functions are for the tabs at the top of #view-container
-window.displayDraw = () ->
-  document.getElementById("audio").style.display = "none"
-  document.getElementById("view").style.display = "none"
-  document.getElementById("draw-container").style.display = "inline-block"
-
-window.displayAnimatic = () ->
-  document.getElementById("audio").style.display = ""
-  document.getElementById("view").style.display = ""
-  document.getElementById("draw-container").style.display = "none"
-
 window.saveFrame = () ->
   data_url = document.getElementById("draw").toDataURL()
   name = document.getElementById("save-frame-name")

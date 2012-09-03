@@ -21,13 +21,14 @@ canvas {
 div#canvas-block {
   width: 640px;
   height: 400px;
+  float: left;
 }
 
 a.tab {
-  background-color: #FFF;
+  background-color: #C3DBDF;
   text-decoration: none;
   color: black;
-  border-left: solid 2px black;
+  border-left: solid 1px black;
   border-right: solid 1px black;
   border-top: solid 1px black;
   border-top-right-radius: 8px;
@@ -37,7 +38,7 @@ a.tab {
 }
 
 a.tab:first-child {
-  background-color: #C3DBDF;
+  background-color: #FFF;
 }
 
 div#pagewrap {
@@ -47,9 +48,16 @@ div#pagewrap {
 
 div#draw-container {
   position: relative;
-  width: 640px;
+  width: 700px;
   height: 436px;
   display: none;
+}
+
+div#tools-container {
+  border:1px red solid;
+  width:55px;
+  height:400px;
+  float: left;
 }
 
 div#timeline-div {

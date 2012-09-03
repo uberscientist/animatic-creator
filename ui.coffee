@@ -3,8 +3,8 @@ window.initTabs = () ->
   for tab in tabs
     tab.addEventListener("click", (e) ->
       for tab in tabs
-        tab.style.backgroundColor = "#FFF"
-      e.srcElement.style.backgroundColor = "#C3DBDF"
+        tab.style.backgroundColor = "#C3DBDF"
+      e.srcElement.style.backgroundColor = "#FFF"
     )
 
 #for the stinkin' onion checkbox
@@ -69,7 +69,7 @@ window.deleteFrame = () ->
 window.cloneFrame = () ->
   edit = document.getElementById("edit-select")
   data_url = document.getElementById("draw").toDataURL()
-  window.frames[Object.keys(window.frames).length] = data_url
+  pushFrame(data_url)
   createFrameList()
 
 clearCanvas = (canvas_id) ->

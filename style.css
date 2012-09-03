@@ -1,5 +1,6 @@
 body {
   font-family: sans-serif;
+  background-color: #DDDDDD;
 }
 
 #options-container h2 {
@@ -23,15 +24,20 @@ div#canvas-block {
 }
 
 a.tab {
+  background-color: #FFF;
   text-decoration: none;
   color: black;
-  border-left: solid 1px black;
+  border-left: solid 2px black;
   border-right: solid 1px black;
   border-top: solid 1px black;
   border-top-right-radius: 8px;
   margin-bottom: 1px;
   padding: 3px;
   display: inline-block;
+}
+
+a.tab:first-child {
+  background-color: #C3DBDF;
 }
 
 div#pagewrap {
@@ -61,6 +67,8 @@ table#timeline-table td {
 }
 
 div#view-container {
+  background-image: linear-gradient(bottom, rgb(255,255,255) 94%, rgb(221,221,221) 26%);
+  background-image: -webkit-linear-gradient(bottom, rgb(255,255,255) 94%, rgb(221,221,221) 26%);
   width: 640px;
   margin: 0px auto;
 }
@@ -71,6 +79,10 @@ div#options-container {
   height: 434px;
   margin: 0px auto;
   display: none;
+}
+
+div#options-save {
+  margin: 20px;
 }
 
 div#view {

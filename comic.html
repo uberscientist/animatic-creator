@@ -19,14 +19,19 @@
         <canvas id='onion-canvas' width=640 height=400>Browser needs to support canvas</canvas>
         <canvas id='draw' width=640 height=400>Browser needs to support canvas</canvas>
         <div id='canvas-block'></div>
-        <input id='save-frame-name' type="text"></input>
-        <button id='save-frame' onclick='window.saveFrame()'>Save Frame</button>
+        <button id='save-frame' onclick='window.saveFrame()'>Save</button>
+        <button id='save-frame' onclick='window.deleteFrame()'>Delete</button>
+        <button id='save-frame' onclick='window.cloneFrame()'>Clone</button>
         <input id='onion-toggle' type="checkbox"></input>
       </div>
 
       <div id='options-container'>
-        <h2>Options</h2>
-        <p>Upload audio, save, load</p>
+        <div id='options-save'>
+          Title:<input id='project-title' type='text'></input><br/>
+          Audio:<input id='audio-file' type='file'></input><br/>
+          <button id='project-save'>Save</button>
+          <button id='project-publish'>Publish</button>
+        </div>
       </div>
 
       <audio id="audio" preload="auto" controls>

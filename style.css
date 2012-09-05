@@ -64,6 +64,8 @@ div.tool {
   height: 50px;
   margin: 1px auto;
   border: 2px red solid;
+  text-align: center;
+  background-color: #FFF;
   float: left;
 }
 

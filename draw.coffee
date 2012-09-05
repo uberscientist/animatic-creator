@@ -1,5 +1,7 @@
+$ = (id) -> document.getElementById(id)
+
 window.initCanvas = () ->
-  canvas = document.getElementById("draw")
+  canvas = $("draw")
   context = canvas.getContext("2d")
   drawing = false
   width = 3
@@ -32,3 +34,6 @@ window.initCanvas = () ->
   )
   canvas.addEventListener("mouseup", (e) ->
     drawing = false)
+
+window.initTools = () ->
+  console.log document.getElementsByClass("tools")

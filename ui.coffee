@@ -69,11 +69,10 @@ window.deleteFrame = () ->
   clearCanvas("draw")
 
 window.cloneFrame = () ->
-  edit = $("edit-select")
-  select = $("insert-pic-select")
   data_url = $("draw").toDataURL()
   pushFrame(data_url)
   createFrameList()
+  $("edit-select").value = $("insert-pic-select").value
 
 clearCanvas = (canvas_id) ->
   canvas = $(canvas_id)

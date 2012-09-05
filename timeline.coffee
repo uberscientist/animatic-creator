@@ -3,7 +3,7 @@
 #            [150, "3.png"]
 #            [180, "2.png"]
 #            [280, "1.png"]]
-
+$ = (id) -> document.getElementById(id)
 delay = (ms, func) -> setTimeout func, ms
 
 window.onload = () ->
@@ -14,22 +14,23 @@ window.onload = () ->
 
   #initialize drawing canvas
   window.initCanvas()
+  window.initTools()
   window.initTabs()
   window.initOnion()
 
   #Setup onplaying event listener to start animatic
-  audio = document.getElementById("audio")
+  audio = $("audio")
   audio.addEventListener("playing", (e) -> startAnimatic())
 
 window.addFrame = () ->
-  name = document.getElementById("insert-pic-select").value
+  name = $("insert-pic-select").value
   if name
     frame = [300, name] #create animatic frame, 300ms default and frame-name
     window.animatic.push(frame)
     drawTimeline(window.animatic)
 
 window.drawTimeline = () ->
-  timeline = document.getElementById("timeline-table")
+  timeline = $("timeline-table")
 
   timeline.innerHTML = '<th>Thumb</th><th>Image</th><th>Duration</th>'
 
@@ -49,7 +50,7 @@ window.drawTimeline = () ->
       thumb_img.width = 100
       thumb_img.src = window.frames[frame_name]
 
-      select = document.getElementById("insert-pic-select")
+      select = $("insert-pic-select")
       select_clone = select.cloneNode(true)
       select_clone.value = frame_name
       select_clone.index = index
@@ -76,7 +77,7 @@ window.drawTimeline = () ->
       #setup event listeners
       select_clone.addEventListener("change", () ->
         animatic[@index][1] = @value
-        thumb = document.getElementById("thumb-#{@index}")
+        thumb = $("thumb-#{@index}")
         thumb.src = window.frames[@value]
       )
       duration_input.addEventListener("blur", () ->
@@ -91,11 +92,12 @@ window.drawTimeline = () ->
 
 startAnimatic = () ->
   timeOffset = 0
-  view = document.getElementById("view")
+  view = $("view")
   file = 1
 
   for frame in animatic
-    image = window.frames[frame[1]]
-    do (image) ->
-      timeOffset += frame[0]
-      delay timeOffset, -> view.style.backgroundImage = "url('#{image}')"
+    if frame
+      image = window.frames[frame[1]]
+      do (image) ->
+          timeOffset += frame[0]
+          delay timeOffset, -> view.style.backgroundImage = "url('#{image}')"

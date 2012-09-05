@@ -74,7 +74,7 @@ window.cloneFrame = () ->
   createFrameList()
   $("edit-select").value = $("insert-pic-select").value
 
-clearCanvas = (canvas_id) ->
+window.clearCanvas = (canvas_id) ->
   canvas = $(canvas_id)
   context = canvas.getContext("2d")
   context.clearRect(0, 0, canvas.width, canvas.height)
@@ -108,6 +108,7 @@ editFrame = (frame) ->
   if frame != "edit"
     canvas = $("draw")
     context = canvas.getContext("2d")
+    context.globalCompositeOperation = "destination-over"
     img_obj = new Image()
     img_obj.src = window.frames[frame]
     img_obj.onload = () ->

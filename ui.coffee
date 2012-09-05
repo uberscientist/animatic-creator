@@ -1,3 +1,5 @@
+$ = (id) -> document.getElementById(id)
+
 window.initTabs = () ->
   tabs = document.getElementsByClassName("tab")
   for tab in tabs
@@ -9,35 +11,35 @@ window.initTabs = () ->
 
 #for the stinkin' onion checkbox
 window.initOnion = () ->
-  onion_toggle = document.getElementById("onion-toggle")
+  onion_toggle = $("onion-toggle")
   onion_toggle.addEventListener("change", () -> turnOnOnion())
 
 #These 3 functions are for the tabs at the top of #view-container
 window.displayDraw = () ->
-  document.getElementById("audio").style.display = "none"
-  document.getElementById("view").style.display = "none"
-  document.getElementById("options-container").style.display = "none"
-  document.getElementById("draw-container").style.display = "block"
+  $("audio").style.display = "none"
+  $("view").style.display = "none"
+  $("options-container").style.display = "none"
+  $("draw-container").style.display = "block"
 
 window.displayAnimatic = () ->
-  document.getElementById("audio").style.display = ""
-  document.getElementById("view").style.display = ""
-  document.getElementById("options-container").style.display = "none"
-  document.getElementById("draw-container").style.display = "none"
+  $("audio").style.display = ""
+  $("view").style.display = ""
+  $("options-container").style.display = "none"
+  $("draw-container").style.display = "none"
 
 window.displayOptions = () ->
-  document.getElementById("audio").style.display = "none"
-  document.getElementById("view").style.display = "none"
-  document.getElementById("options-container").style.display = "block"
-  document.getElementById("draw-container").style.display = "none"
+  $("audio").style.display = "none"
+  $("view").style.display = "none"
+  $("options-container").style.display = "block"
+  $("draw-container").style.display = "none"
 
 pushFrame = (data) ->
   frame_index += 1
   window.frames[frame_index] = data
 
 window.saveFrame = () ->
-  edit = document.getElementById("edit-select")
-  data_url = document.getElementById("draw").toDataURL()
+  edit = $("edit-select")
+  data_url = $("draw").toDataURL()
   if edit == null
     #first frame saved
     pushFrame(data_url)
@@ -56,7 +58,7 @@ window.saveFrame = () ->
   clearCanvas("draw")
 
 window.deleteFrame = () ->
-  frame = document.getElementById("edit-select").value
+  frame = $("edit-select").value
   delete window.frames[frame]
   for chunk, index in window.animatic
     #console.log "#{frame} index #{index} and #{chunk[1]}"
@@ -67,18 +69,19 @@ window.deleteFrame = () ->
   clearCanvas("draw")
 
 window.cloneFrame = () ->
-  edit = document.getElementById("edit-select")
-  data_url = document.getElementById("draw").toDataURL()
+  edit = $("edit-select")
+  select = $("insert-pic-select")
+  data_url = $("draw").toDataURL()
   pushFrame(data_url)
   createFrameList()
 
 clearCanvas = (canvas_id) ->
-  canvas = document.getElementById(canvas_id)
+  canvas = $(canvas_id)
   context = canvas.getContext("2d")
   context.clearRect(0, 0, canvas.width, canvas.height)
 
 createFrameList = () ->
-  select = document.getElementById("insert-pic-select")
+  select = $("insert-pic-select")
   select.options.length = 0 #clear options
 
   for frame of window.frames #repopulate options
@@ -88,12 +91,12 @@ createFrameList = () ->
   createOtherSelects(select)
 
 turnOnOnion = () ->
-  frame = document.getElementById("onion-select").value
-  onion_toggle = document.getElementById("onion-toggle")
+  frame = $("onion-select").value
+  onion_toggle = $("onion-toggle")
   clearCanvas("onion-canvas")
 
   if onion_toggle.checked
-    onion_canvas = document.getElementById("onion-canvas")
+    onion_canvas = $("onion-canvas")
     context = onion_canvas.getContext("2d")
     context.globalAlpha = .2
     img_obj = new Image()
@@ -104,7 +107,7 @@ turnOnOnion = () ->
 editFrame = (frame) ->
   clearCanvas("draw")
   if frame != "edit"
-    canvas = document.getElementById("draw")
+    canvas = $("draw")
     context = canvas.getContext("2d")
     img_obj = new Image()
     img_obj.src = window.frames[frame]
@@ -113,17 +116,17 @@ editFrame = (frame) ->
 
 createOtherSelects = (select) ->
   #Create onion select list
-  draw_container = document.getElementById("draw-container")
+  draw_container = $("draw-container")
   select_clone = select.cloneNode(true)
   select_clone.id = 'onion-select'
   select_clone.value = select.value
 
-  onion_select = document.getElementById("onion-select")
+  onion_select = $("onion-select")
   onion_select.parentNode.removeChild(onion_select) if onion_select
   draw_container.appendChild(select_clone)
   turnOnOnion()
 
-  onion_select = document.getElementById("onion-select")
+  onion_select = $("onion-select")
   onion_select.addEventListener("change", () -> turnOnOnion())
 
   #Create edit/clone select list
@@ -132,9 +135,9 @@ createOtherSelects = (select) ->
   select_clone_0.options[select.options.length] = new Option("Edit", "edit")
   select_clone_0.value = 'edit'
 
-  save_button = document.getElementById("save-frame")
-  edit_select = document.getElementById("edit-select")
+  save_button = $("save-frame")
+  edit_select = $("edit-select")
   edit_select.parentNode.removeChild(edit_select) if edit_select
   draw_container.insertBefore(select_clone_0, save_button)
-  edit_select = document.getElementById("edit-select")
+  edit_select = $("edit-select")
   edit_select.addEventListener("change", () -> editFrame(edit_select.value))

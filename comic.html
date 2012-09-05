@@ -4,6 +4,7 @@
   <title>Animatic Editor</title>
   <link rel="stylesheet" type="text/css" href="style.css" />
   <script src="draw.js"></script>
+  <script src="jscolor/jscolor.js"></script>
   <script src="ui.js"></script>
   <script src="timeline.js"></script>
 </head>
@@ -23,7 +24,8 @@
           <div class='tool' id='pencil'>Pencil</div>
           <div class='tool' id='eraser'>Eraser</div>
           <div class='tool'>Fill</div>
-          <div class='tool'>Color</div>
+          <div class='tool' id='dropper'>Dropper</div>
+          <input class='color' id='color' value="000000"></input>
           <div class='tool' id='clear'>Clear</div>
         </div>
         <button id='save-frame' onclick='window.saveFrame()'>Save</button>

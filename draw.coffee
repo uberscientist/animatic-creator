@@ -22,12 +22,13 @@ activeTool = (e) ->
   canvas = $("draw")
   context = canvas.getContext("2d")
   width = 3
+  color = "##{$("color").value}"
 
   if window.tool == "pencil"
     width = 3
-    context.globalCompositeOperation = "destination-over"
-    context.fillStyle = "#000"
-    context.strokeStyle = "#000"
+    context.globalCompositeOperation = "source-over"
+    context.fillStyle = color
+    context.strokeStyle = color
   else if window.tool == "eraser"
     width = 10
     context.globalCompositeOperation = "destination-out"

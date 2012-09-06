@@ -7,31 +7,29 @@ window.initTabs = () ->
       for tab in tabs
         tab.style.backgroundColor = "#C3DBDF"
       e.srcElement.style.backgroundColor = "#FFF"
+
+      switch @id
+        when "tab-animatic"
+          $("audio").style.display = ""
+          $("view").style.display = ""
+          $("options-container").style.display = "none"
+          $("draw-container").style.display = "none"
+        when "tab-draw"
+          $("audio").style.display = "none"
+          $("view").style.display = "none"
+          $("options-container").style.display = "none"
+          $("draw-container").style.display = "block"
+        when "tab-options"
+          $("audio").style.display = "none"
+          $("view").style.display = "none"
+          $("options-container").style.display = "block"
+          $("draw-container").style.display = "none"
     )
 
 #for the stinkin' onion checkbox
 window.initOnion = () ->
   onion_toggle = $("onion-toggle")
   onion_toggle.addEventListener("change", () -> turnOnOnion())
-
-#These 3 functions are for the tabs at the top of #view-container
-window.displayDraw = () ->
-  $("audio").style.display = "none"
-  $("view").style.display = "none"
-  $("options-container").style.display = "none"
-  $("draw-container").style.display = "block"
-
-window.displayAnimatic = () ->
-  $("audio").style.display = ""
-  $("view").style.display = ""
-  $("options-container").style.display = "none"
-  $("draw-container").style.display = "none"
-
-window.displayOptions = () ->
-  $("audio").style.display = "none"
-  $("view").style.display = "none"
-  $("options-container").style.display = "block"
-  $("draw-container").style.display = "none"
 
 pushFrame = (data) ->
   frame_index += 1

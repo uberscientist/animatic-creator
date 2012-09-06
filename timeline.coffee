@@ -32,7 +32,7 @@ window.addFrame = () ->
 window.drawTimeline = () ->
   timeline = $("timeline-table")
 
-  timeline.innerHTML = '<th>Thumb</th><th>Image</th><th>Duration</th>'
+  timeline.innerHTML = '<th>Thumb</th><th>Image</th><th>Relative Offset</th>'
 
   for frame, index in animatic
     if frame != null

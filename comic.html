@@ -11,9 +11,9 @@
 <body>
   <div id='pagewrap'>
     <div id='view-container'>
-      <a class='tab' href='#' onclick='window.displayAnimatic()'>View Animatic</a>
-      <a class='tab' href='#' onclick='window.displayDraw()'>Draw Frame</a>
-      <a class='tab' href='#' onclick='window.displayOptions()'>Options</a>
+      <a class='tab' id='tab-animatic' href='#'>View Animatic</a>
+      <a class='tab' id='tab-draw' href='#'>Draw Frame</a>
+      <a class='tab' id='tab-options' href='#'>Options</a>
       <div id='view'></div>
 
       <div id='draw-container'>
@@ -23,8 +23,8 @@
         <div id='tools-container'>
           <div class='tool' id='pencil'>Pencil</div>
           <div class='tool' id='eraser'>Eraser</div>
-          <div class='tool'>Fill</div>
-          <div class='tool' id='dropper'>Dropper</div>
+          <div class='tool' id='fill'>Fill</div>
+          <div class='tool' id='dropper'>Dropp er</div>
           <input class='color' id='color' value="000000"></input>
           <div class='tool' id='clear'>Clear</div>
         </div>
@@ -55,7 +55,7 @@
         <tr>
           <th>Thumb</th>
           <th>Image</th>
-          <th>Duration</th>
+          <th>Relative Offset</th>
       </table>
     </div>
 

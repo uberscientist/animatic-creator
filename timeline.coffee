@@ -19,13 +19,13 @@ window.onload = () ->
   window.initOnion()
 
   #Setup onplaying event listener to start animatic
-  audio = $("audio")
-  audio.addEventListener("playing", (e) -> startAnimatic())
+  $("audio").addEventListener("playing", (e) -> startAnimatic())
 
 window.addFrame = () ->
   name = $("insert-pic-select").value
   if name
-    frame = [300, name] #create animatic frame, 300ms default and frame-name
+    time = if window.animatic.length < 1 then 0 else 300
+    frame = [time, name] #create animatic frame
     window.animatic.push(frame)
     drawTimeline(window.animatic)
 

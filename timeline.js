@@ -11,7 +11,6 @@
   };
 
   window.onload = function() {
-    var audio;
     window.frame_index = 0;
     window.animatic = [];
     window.frames = {};
@@ -19,17 +18,17 @@
     window.initTools();
     window.initTabs();
     window.initOnion();
-    audio = $("audio");
-    return audio.addEventListener("playing", function(e) {
+    return $("audio").addEventListener("playing", function(e) {
       return startAnimatic();
     });
   };
 
   window.addFrame = function() {
-    var frame, name;
+    var frame, name, time;
     name = $("insert-pic-select").value;
     if (name) {
-      frame = [300, name];
+      time = window.animatic.length < 1 ? 0 : 300;
+      frame = [time, name];
       window.animatic.push(frame);
       return drawTimeline(window.animatic);
     }

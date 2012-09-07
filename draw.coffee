@@ -76,6 +76,7 @@ activeTool = (e) ->
     if e.type == "mouseup"
         mx = e.offsetX
         my = e.offsetY
+
         canvasWidth = canvas.width
         canvasHeight = canvas.height
         drawingBoundTop = 0
@@ -83,20 +84,16 @@ activeTool = (e) ->
         
         pixelStack = [[mx, my]]
         pixelPos = (pixelStack[0][1] * canvasWidth + pixelStack[0][0]) * 4
-        startR = colorLayer.data[pixelPos]
-        startG = colorLayer.data[pixelPos + 1]
-        startB = colorLayer.data[pixelPos + 2]
+
+        startPix = (colorLayer.data[pixelPos + i] for i in [0..3])
 
         matchStartColor = (pixelPos) ->
-          r = colorLayer.data[pixelPos]
-          g = colorLayer.data[pixelPos+1]
-          b = colorLayer.data[pixelPos+2]
-          (r == startR && g == startG && b == startB)
+          pix = (colorLayer.data[pixelPos + i] for i in [0..3])
+          (pix[0] == startPix[0] and pix[1] == startPix[1] and pix[2] == startPix[2] and pix[3] == startPix[3])
 
         colorPixel = (pixelPos) ->
-          colorLayer.data[pixelPos] = 255
-          colorLayer.data[pixelPos+1] = 0
-          colorLayer.data[pixelPos+2] = 0
+          for i in [0..2]
+            colorLayer.data[pixelPos + i] = Math.round(color_select.color.rgb[i] * 255)
           colorLayer.data[pixelPos+3] = 255
 
         while pixelStack.length
@@ -131,12 +128,6 @@ activeTool = (e) ->
                 reachRight = false
             pixelPos += canvasWidth * 4
         context.putImageData(colorLayer, 0, 0)
-
-comparePix = (originalPix, pixPosB, pixels) ->
-  pixB = ''
-  for i in [0..3]
-    pixB += pixels[pixPosB + i].toString()
-  if originalPix == pixB then return true else return false
 
 window.initTools = () ->
   tools = document.getElementsByClassName("tool")

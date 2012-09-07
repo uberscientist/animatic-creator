@@ -35,19 +35,13 @@
   };
 
   window.drawTimeline = function() {
-    var chunk_td_duration, chunk_td_image, chunk_td_thumb, chunk_tr, delete_link, duration, duration_input, frame, frame_name, index, select, select_clone, thumb_img, timeline, _i, _len, _results;
-    timeline = $("timeline-table");
-    timeline.innerHTML = '<th>Thumb</th><th>Image</th><th>Relative Offset</th>';
+    var chunk_div, delete_link, duration, duration_input, frame, frame_name, index, select, select_clone, thumb_img, _i, _len, _results;
     _results = [];
     for (index = _i = 0, _len = animatic.length; _i < _len; index = ++_i) {
       frame = animatic[index];
       if (frame !== null) {
         duration = frame[0];
         frame_name = frame[1];
-        chunk_tr = document.createElement("tr");
-        chunk_td_thumb = document.createElement("td");
-        chunk_td_image = document.createElement("td");
-        chunk_td_duration = document.createElement("td");
         thumb_img = document.createElement("img");
         thumb_img.id = "thumb-" + index;
         thumb_img.height = 75;
@@ -65,13 +59,13 @@
         delete_link.innerText = "del";
         delete_link.href = "#";
         delete_link.index = index;
-        chunk_td_thumb.appendChild(thumb_img);
-        chunk_td_image.appendChild(select_clone);
-        chunk_td_duration.appendChild(duration_input);
-        chunk_td_duration.appendChild(delete_link);
-        chunk_tr.appendChild(chunk_td_thumb);
-        chunk_tr.appendChild(chunk_td_image);
-        chunk_tr.appendChild(chunk_td_duration);
+        chunk_div = document.createElement("div");
+        chunk_div.index = index;
+        chunk_div.appendChild(thumb_img);
+        chunk_div.appendChild(select_clone);
+        chunk_div.appendChild(duration_input);
+        chunk_div.appendChild(delete_link);
+        $("timeline-div").appendChild(chunk_div);
         select_clone.addEventListener("change", function() {
           var thumb;
           animatic[this.index][1] = this.value;
@@ -81,11 +75,10 @@
         duration_input.addEventListener("blur", function() {
           return animatic[this.index][0] = parseInt(this.value);
         });
-        delete_link.addEventListener("click", function() {
+        _results.push(delete_link.addEventListener("click", function() {
           window.animatic.splice(parseInt(this.index), 1);
           return drawTimeline();
-        });
-        _results.push(timeline.appendChild(chunk_tr));
+        }));
       } else {
         _results.push(void 0);
       }

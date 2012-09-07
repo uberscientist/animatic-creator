@@ -1,8 +1,8 @@
-#[ms after last frame, frame-file]
-#animatic = [[0, "4.png"]
-#            [150, "3.png"]
-#            [180, "2.png"]
-#            [280, "1.png"]]
+#[ms after last frame, frame-name]
+#animatic = [[0, "4"]
+#            [150, "3"]
+#            [180, "2"]
+#            [280, "1"]]
 $ = (id) -> document.getElementById(id)
 delay = (ms, func) -> setTimeout func, ms
 
@@ -30,49 +30,47 @@ window.addFrame = () ->
     drawTimeline(window.animatic)
 
 window.drawTimeline = () ->
-  timeline = $("timeline-table")
-
-  timeline.innerHTML = '<th>Thumb</th><th>Image</th><th>Relative Offset</th>'
 
   for frame, index in animatic
     if frame != null
       duration = frame[0]
       frame_name = frame[1]
 
-      chunk_tr = document.createElement("tr")
-      chunk_td_thumb = document.createElement("td")
-      chunk_td_image = document.createElement("td")
-      chunk_td_duration = document.createElement("td")
-
+      #Thumbnail element
       thumb_img = document.createElement("img")
       thumb_img.id = "thumb-#{index}"
       thumb_img.height = 75
       thumb_img.width = 100
       thumb_img.src = window.frames[frame_name]
 
+      #Clone frame select
       select = $("insert-pic-select")
       select_clone = select.cloneNode(true)
       select_clone.value = frame_name
       select_clone.index = index
 
+      #ms duration input element
       duration_input = document.createElement("input")
       duration_input.value = duration
       duration_input.index = index
       duration_input.type = 'number'
 
+      #Delete hyperlink
       delete_link = document.createElement("a")
       delete_link.innerText = "del"
       delete_link.href = "#"
       delete_link.index = index
 
-      chunk_td_thumb.appendChild(thumb_img)
-      chunk_td_image.appendChild(select_clone)
-      chunk_td_duration.appendChild(duration_input)
-      chunk_td_duration.appendChild(delete_link)
+      #Resizable timing chunk
+      chunk_div = document.createElement("div")
+      chunk_div.index = index
 
-      chunk_tr.appendChild(chunk_td_thumb)
-      chunk_tr.appendChild(chunk_td_image)
-      chunk_tr.appendChild(chunk_td_duration)
+      chunk_div.appendChild(thumb_img)
+      chunk_div.appendChild(select_clone)
+      chunk_div.appendChild(duration_input)
+      chunk_div.appendChild(delete_link)
+
+      $("timeline-div").appendChild(chunk_div)
 
       #setup event listeners
       select_clone.addEventListener("change", () ->
@@ -87,8 +85,6 @@ window.drawTimeline = () ->
         window.animatic.splice(parseInt(@index),1)
         drawTimeline()
       )
-
-      timeline.appendChild(chunk_tr)
 
 startAnimatic = () ->
   timeOffset = 0

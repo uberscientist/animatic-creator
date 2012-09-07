@@ -33,7 +33,7 @@
   };
 
   activeTool = function(e) {
-    var canvas, color, color_select, context, coord, data, fillColor, i, leftPos, originalPix, originalPos, paintPos, pixel, pixelStack, pixels, px, py, rightPos, scanPos, width, x, y, _i, _j;
+    var canvas, canvasHeight, canvasWidth, color, colorLayer, colorPixel, color_select, context, drawingBoundTop, matchStartColor, mx, my, newPos, pixel, pixelPos, pixelStack, reachLeft, reachRight, startB, startG, startR, width, x, y;
     canvas = $("draw");
     context = canvas.getContext("2d");
     width = 3;
@@ -86,46 +86,68 @@
       }
     } else if (window.tool === "fill") {
       if (e.type === "mouseup") {
-        pixelStack = [];
-        fillColor = color_select.color.rgb.map(function(value) {
-          return Math.round(value * 255);
-        });
-        fillColor.push(255);
-        data = context.getImageData(0, 0, 640, 400);
-        pixels = data.data;
-        originalPos = (y * 640 + x) * 4;
-        originalPix = '';
-        for (i = _i = 0; _i <= 3; i = ++_i) {
-          originalPix += pixels[originalPos + i];
-        }
-        pixelStack.push([x, y]);
-        while (pixelStack.length > 0) {
-          coord = pixelStack.pop();
-          px = coord[0];
-          py = coord[1];
-          scanPos = ((py--) * 640 + px) * 4;
-          while (comparePix(originalPix, scanPos, pixels) && py > 0) {
-            scanPos = ((py--) * 640 + px) * 4;
-            rightPos = (py * 640 + px + 2) * 4;
-            leftPos = (py * 640 + px - 2) * 4;
-            if (comparePix(originalPix, rightPos, pixels) && px < 640) {
-              console.log("left push");
-              pixelStack.push([px + 1, py]);
-            }
-            if (comparePix(originalPix, leftPos, pixels) && px > 0) {
-              pixelStack.push([px - 1, py]);
-              console.log("right push");
-            }
+        mx = e.offsetX;
+        my = e.offsetY;
+        canvasWidth = canvas.width;
+        canvasHeight = canvas.height;
+        drawingBoundTop = 0;
+        colorLayer = context.getImageData(0, 0, canvasWidth, canvasHeight);
+        pixelStack = [[mx, my]];
+        pixelPos = (pixelStack[0][1] * canvasWidth + pixelStack[0][0]) * 4;
+        startR = colorLayer.data[pixelPos];
+        startG = colorLayer.data[pixelPos + 1];
+        startB = colorLayer.data[pixelPos + 2];
+        matchStartColor = function(pixelPos) {
+          var b, g, r;
+          r = colorLayer.data[pixelPos];
+          g = colorLayer.data[pixelPos + 1];
+          b = colorLayer.data[pixelPos + 2];
+          return r === startR && g === startG && b === startB;
+        };
+        colorPixel = function(pixelPos) {
+          colorLayer.data[pixelPos] = 255;
+          colorLayer.data[pixelPos + 1] = 0;
+          colorLayer.data[pixelPos + 2] = 0;
+          return colorLayer.data[pixelPos + 3] = 255;
+        };
+        while (pixelStack.length) {
+          newPos = pixelStack.pop();
+          x = newPos[0];
+          y = newPos[1];
+          pixelPos = (y * canvasWidth + x) * 4;
+          while (y-- >= drawingBoundTop && matchStartColor(pixelPos)) {
+            pixelPos -= canvasWidth * 4;
           }
-          paintPos = (py += 1 * 640 + px) * 4;
-          while (comparePix(originalPix, paintPos, pixels) && py < 400) {
-            for (i = _j = 0; _j <= 3; i = ++_j) {
-              pixels[paintPos + i] = fillColor[i];
+          pixelPos += canvasWidth * 4;
+          ++y;
+          reachLeft = false;
+          reachRight = false;
+          while (y++ < canvasHeight - 1 && matchStartColor(pixelPos)) {
+            colorPixel(pixelPos);
+            if (x > 0) {
+              if (matchStartColor(pixelPos - 4)) {
+                if (!reachLeft) {
+                  pixelStack.push([x - 1, y]);
+                  reachLeft = true;
+                }
+              } else if (reachLeft) {
+                reachLeft = false;
+              }
             }
-            paintPos = (py++ * 640 + px) * 4;
+            if (x < canvasWidth - 1) {
+              if (matchStartColor(pixelPos + 4)) {
+                if (!reachRight) {
+                  pixelStack.push([x + 1, y]);
+                  reachRight = true;
+                }
+              } else if (reachRight) {
+                reachRight = false;
+              }
+            }
+            pixelPos += canvasWidth * 4;
           }
         }
-        return context.putImageData(data, 0, 0);
+        return context.putImageData(colorLayer, 0, 0);
       }
     }
   };

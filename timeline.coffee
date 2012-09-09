@@ -7,6 +7,7 @@ $ = (id) -> document.getElementById(id)
 delay = (ms, func) -> animation = setTimeout func, ms
 
 nextOffset = 300
+scale = .1
 
 window.onload = () ->
   #create empties
@@ -23,6 +24,11 @@ window.onload = () ->
   #Setup onplaying event listener to start animatic
   $("audio").addEventListener("playing", (e) -> startAnimatic())
 
+  $("scale-range").addEventListener("change", (e) ->
+    scale = @value
+    drawTimeline()
+  )
+
 window.addFrame = () ->
   name = $("insert-pic-select").value
   if name
@@ -35,7 +41,6 @@ window.addFrame = () ->
 
 window.drawTimeline = () ->
   
-  scale = .1
   resizeEnable = false
   resizing = null
   origWidth = null

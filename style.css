@@ -86,6 +86,17 @@ input.color {
   float: left;
 }
 
+input#scale-range {
+  position: relative;
+  top: 5px;
+}
+
+form#controls {
+  background-color: #444444;
+  border-radius: 5px;
+  padding: 5px;
+}
+
 div#timeline-container {
   width: 800px;
 }

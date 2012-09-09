@@ -49,8 +49,11 @@
       </audio>
     </div>
     <div id='timeline-container'>
-      <select id='insert-pic-select'></select>
-      <button id='insert-pic-button' onclick='window.addFrame()'>Add Frame</button>
+      <form id='controls'>
+        <select id='insert-pic-select'></select>
+        <button id='insert-pic-button' onclick='window.addFrame()'>Add Frame</button>
+        <input id='scale-range' type='range' min='.1' max='2' step='.1' value='.1' />
+      </form>
     </div>
   </div>
 </body>

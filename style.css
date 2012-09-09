@@ -1,6 +1,7 @@
 body {
   font-family: sans-serif;
   background-color: #DDDDDD;
+  -webkit-user-select: none;
 }
 
 audio#audio {
@@ -65,6 +66,17 @@ div.tool {
   float: left;
 }
 
+div.chunk {
+  border: 1px blue solid;
+  border-radius: 5px;
+  margin: 1px;
+  text-align: left;
+  height: 48px;
+  float: left;
+  overflow: hidden;
+  display: block;
+}
+
 input.color {
   width: 50px;
   height: 50px;
@@ -74,8 +86,9 @@ input.color {
   float: left;
 }
 
-div#timeline-div {
+div#timeline-container {
   width: 800px;
+  border: 1px black solid;
 }
 
 div#view-container {

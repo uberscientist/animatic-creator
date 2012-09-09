@@ -24,7 +24,7 @@ activeTool = (e) ->
   context = canvas.getContext("2d")
   width = 3
   color_select = $("color")
-  color = "##{color_select.value}"
+  color = "#" + color_select.value
   x = e.offsetX
   y = e.offsetY
 

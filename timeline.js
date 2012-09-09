@@ -7,7 +7,8 @@
   };
 
   delay = function(ms, func) {
-    return setTimeout(func, ms);
+    var animation;
+    return animation = setTimeout(func, ms);
   };
 
   nextOffset = 300;
@@ -67,7 +68,7 @@
         chunk_div.style.backgroundImage = "url('" + window.frames[frame_name] + "')";
         chunk_div.style.backgroundSize = "64px 48px";
         if (!animatic[index + 1]) {
-          chunk_div.style.width = 300 * scale + "px";
+          chunk_div.style.width = nextOffset * scale + "px";
         } else {
           chunk_div.style.width = animatic[index + 1][0] * scale + "px";
         }
@@ -142,10 +143,9 @@
   };
 
   startAnimatic = function() {
-    var file, frame, image, timeOffset, view, _i, _len, _results;
+    var frame, image, timeOffset, view, _i, _len, _results;
     timeOffset = 0;
     view = $("view");
-    file = 1;
     _results = [];
     for (_i = 0, _len = animatic.length; _i < _len; _i++) {
       frame = animatic[_i];

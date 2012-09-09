@@ -4,7 +4,7 @@
 #            [180, "2"]
 #            [280, "1"]]
 $ = (id) -> document.getElementById(id)
-delay = (ms, func) -> setTimeout func, ms
+delay = (ms, func) -> animation = setTimeout func, ms
 
 nextOffset = 300
 
@@ -77,7 +77,7 @@ window.drawTimeline = () ->
 
       #Set initial width
       if !animatic[index + 1]
-        chunk_div.style.width = 300 * scale + "px"
+        chunk_div.style.width = nextOffset * scale + "px"
       else
         chunk_div.style.width = animatic[index+1][0] * scale + "px"
 
@@ -161,7 +161,6 @@ window.drawTimeline = () ->
 startAnimatic = () ->
   timeOffset = 0
   view = $("view")
-  file = 1
 
   for frame in animatic
     if frame

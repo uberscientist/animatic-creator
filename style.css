@@ -91,7 +91,7 @@ input#scale-range {
   top: 5px;
 }
 
-form#controls {
+div#controls {
   background-color: #444444;
   border-radius: 5px;
   padding: 5px;

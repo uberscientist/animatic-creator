@@ -5,6 +5,9 @@
 #            [280, "1"]]
 $ = (id) -> document.getElementById(id)
 delay = (ms, func) -> animation = setTimeout func, ms
+Array.prototype.swap = (a,b) ->
+  this[a] = @splice(b, 1, this[a])[0]
+  return this
 
 nextOffset = 300
 scale = .1
@@ -43,6 +46,7 @@ window.drawTimeline = () ->
   
   resizeEnable = false
   resizing = null
+  dragged = null
   origWidth = null
   resizeStartX = null
 
@@ -128,6 +132,43 @@ window.drawTimeline = () ->
       delete_link.addEventListener("click", () ->
         window.animatic.splice(parseInt(@index),1)
         drawTimeline()
+      )
+
+      #Dragging chunks event listeners
+      chunk_div.addEventListener("dragstart", () ->
+        @style.opacity = '0.4'
+        dragged = this
+      )
+      chunk_div.addEventListener("dragend", () ->
+        @style.opacity = '1'
+        dragged = null
+      )
+      chunk_div.addEventListener("dragover", (e) ->
+        if (e.preventDefault)
+          e.preventDefault() #Allows us to drop...
+        @style.borderLeft = "2px red dashed"
+      )
+      chunk_div.addEventListener("dragleave", () ->
+        @style.borderLeft = ""
+      )
+      chunk_div.addEventListener("drop", (e) -> #emitted from dropped on element
+        if(e.stopPropagation)
+          e.stopPropagation()
+          dragTime = window.animatic[dragged.index + 1][0]
+          dropTime = window.animatic[@index + 1][0]
+
+          tempDragTime = dragTime
+          dragTime = dropTime
+          dropTime = tempDragTime
+
+          tempDragFrame = dragFrame
+          dragFrame = dropFrame
+          dropFrame = prevFrame
+
+          window.animatic.swap(dragged.index + 1, @index + 1)
+
+          @style.borderLeft = ""
+          drawTimeline()
       )
 
   #Finally append timeline to container

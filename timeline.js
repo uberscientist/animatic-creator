@@ -11,6 +11,11 @@
     return animation = setTimeout(func, ms);
   };
 
+  Array.prototype.swap = function(a, b) {
+    this[a] = this.splice(b, 1, this[a])[0];
+    return this;
+  };
+
   nextOffset = 300;
 
   scale = .1;
@@ -45,9 +50,10 @@
   };
 
   window.drawTimeline = function() {
-    var chunk_div, clearDiv, delete_link, frame, frame_name, index, offset, origWidth, resizeEnable, resizeStartX, resizing, select, select_clone, timeline, timeline_container, _i, _len;
+    var chunk_div, clearDiv, delete_link, dragged, frame, frame_name, index, offset, origWidth, resizeEnable, resizeStartX, resizing, select, select_clone, timeline, timeline_container, _i, _len;
     resizeEnable = false;
     resizing = null;
+    dragged = null;
     origWidth = null;
     resizeStartX = null;
     timeline = $("timeline");
@@ -113,6 +119,40 @@
         delete_link.addEventListener("click", function() {
           window.animatic.splice(parseInt(this.index), 1);
           return drawTimeline();
+        });
+        chunk_div.addEventListener("dragstart", function() {
+          this.style.opacity = '0.4';
+          return dragged = this;
+        });
+        chunk_div.addEventListener("dragend", function() {
+          this.style.opacity = '1';
+          return dragged = null;
+        });
+        chunk_div.addEventListener("dragover", function(e) {
+          if (e.preventDefault) {
+            e.preventDefault();
+          }
+          return this.style.borderLeft = "2px red dashed";
+        });
+        chunk_div.addEventListener("dragleave", function() {
+          return this.style.borderLeft = "";
+        });
+        chunk_div.addEventListener("drop", function(e) {
+          var dragFrame, dragTime, dropFrame, dropTime, tempDragFrame, tempDragTime;
+          if (e.stopPropagation) {
+            e.stopPropagation();
+            dragTime = window.animatic[dragged.index + 1][0];
+            dropTime = window.animatic[this.index + 1][0];
+            tempDragTime = dragTime;
+            dragTime = dropTime;
+            dropTime = tempDragTime;
+            tempDragFrame = dragFrame;
+            dragFrame = dropFrame;
+            dropFrame = prevFrame;
+            window.animatic.swap(dragged.index + 1, this.index + 1);
+            this.style.borderLeft = "";
+            return drawTimeline();
+          }
         });
       }
     }

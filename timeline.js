@@ -41,8 +41,7 @@
     var frame, name, time;
     name = $("insert-pic-select").value;
     if (name) {
-      time = window.animatic.length < 1 ? 0 : nextOffset;
-      nextOffset = 300;
+      time = nextOffset;
       frame = [time, name];
       window.animatic.push(frame);
       return drawTimeline(window.animatic);
@@ -78,11 +77,7 @@
         chunk_div = document.createElement("div");
         chunk_div.style.backgroundImage = "url('" + window.frames[frame_name] + "')";
         chunk_div.style.backgroundSize = "64px 48px";
-        if (!animatic[index + 1]) {
-          chunk_div.style.width = nextOffset * scale + "px";
-        } else {
-          chunk_div.style.width = animatic[index + 1][0] * scale + "px";
-        }
+        chunk_div.style.width = animatic[index][0] * scale + "px";
         chunk_div.className = "chunk";
         chunk_div.index = index;
         chunk_div.id = "chunk-" + index;
@@ -132,24 +127,19 @@
           if (e.preventDefault) {
             e.preventDefault();
           }
-          return this.style.borderLeft = "2px red dashed";
+          return this.style.borderLeft = "2px red dotted";
         });
         chunk_div.addEventListener("dragleave", function() {
           return this.style.borderLeft = "";
         });
         chunk_div.addEventListener("drop", function(e) {
-          var dragFrame, dragTime, dropFrame, dropTime, tempDragFrame, tempDragTime;
+          var draggged, spliceOffset;
           if (e.stopPropagation) {
             e.stopPropagation();
-            dragTime = window.animatic[dragged.index + 1][0];
-            dropTime = window.animatic[this.index + 1][0];
-            tempDragTime = dragTime;
-            dragTime = dropTime;
-            dropTime = tempDragTime;
-            tempDragFrame = dragFrame;
-            dragFrame = dropFrame;
-            dropFrame = prevFrame;
-            window.animatic.swap(dragged.index + 1, this.index + 1);
+            draggged = window.animatic[dragged.index];
+            spliceOffset = dragged.index > this.index ? 1 : 0;
+            window.animatic.splice(this.index, 0, window.animatic[dragged.index]);
+            window.animatic.splice(dragged.index + spliceOffset, 1);
             this.style.borderLeft = "";
             return drawTimeline();
           }
@@ -177,27 +167,27 @@
       if (resizing) {
         width = parseInt(resizing.style.width.match(/\d*/));
         index = resizing.index;
-        if (animatic[index + 1]) {
-          animatic[index + 1][0] = Math.round(width / scale);
-        } else {
-          nextOffset = Math.round(width / scale);
-        }
+        animatic[index][0] = Math.round(width / scale);
         return resizing = null;
       }
     });
   };
 
   startAnimatic = function() {
-    var frame, image, timeOffset, view, _i, _len, _results;
+    var frame, image, index, timeOffset, view, _i, _len, _results;
     timeOffset = 0;
     view = $("view");
     _results = [];
-    for (_i = 0, _len = animatic.length; _i < _len; _i++) {
-      frame = animatic[_i];
+    for (index = _i = 0, _len = animatic.length; _i < _len; index = ++_i) {
+      frame = animatic[index];
       if (frame) {
         image = window.frames[frame[1]];
         _results.push((function(image) {
-          timeOffset += frame[0];
+          if (index === 0) {
+            timeOffset = 0;
+          } else {
+            timeOffset += window.animatic[index - 1][0];
+          }
           return delay(timeOffset, function() {
             return view.style.backgroundImage = "url('" + image + "')";
           });

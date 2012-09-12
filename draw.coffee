@@ -40,9 +40,9 @@ window.initTools = () ->
         srcEl = if e.srcElement then e.srcElement else e.target
 
         for tool in tools
-          tool.style.border = "black 2px solid"
+          tool.style.backgroundColor = "#FFF"
 
-        srcEl.style.border = "red 2px dotted"
+        srcEl.style.backgroundColor = "#C3DBDF"
     )
 
 window.clearCanvas = (canvas_id) ->

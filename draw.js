@@ -52,9 +52,9 @@
           srcEl = e.srcElement ? e.srcElement : e.target;
           for (_j = 0, _len1 = tools.length; _j < _len1; _j++) {
             tool = tools[_j];
-            tool.style.border = "black 2px solid";
+            tool.style.backgroundColor = "#FFF";
           }
-          return srcEl.style.border = "red 2px dotted";
+          return srcEl.style.backgroundColor = "#C3DBDF";
         }
       }));
     }

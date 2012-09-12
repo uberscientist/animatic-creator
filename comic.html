@@ -16,6 +16,7 @@
       <a class='tab' id='tab-options' href='#'>Options</a>
       <div id='view'></div>
 
+    <!-- These are the drawing tools and canvases -->
       <div id='draw-container'>
         <canvas id='draw' width=640 height=400>Browser needs to support canvas</canvas>
         <canvas id='onion-canvas' width=640 height=400>Browser needs to support canvas</canvas>
@@ -34,6 +35,7 @@
         <input id='onion-toggle' type="checkbox"></input>
       </div>
 
+    <!-- Options -->
       <div id='options-container'>
         <div id='options-save'>
           Title:<input id='project-title' type='text'></input><br/>
@@ -48,11 +50,15 @@
         <source src="comic1.mp3" type="audio/mpeg"/>
       </audio>
     </div>
+
+    <!-- Timeline controls / view -->
     <div id='timeline-container'>
       <div id='controls'>
         <select id='insert-pic-select'></select>
         <button id='insert-pic-button' onclick='window.addFrame()'>Add Frame</button>
-        <input id='scale-range' type='range' min='.1' max='2' step='.1' value='.1' />
+
+        <!-- range doesn't work in FF yet -->
+        <input id='scale-range' type='range' min='.01' max='1' step='.01' value='.1' />
       </div>
     </div>
   </div>

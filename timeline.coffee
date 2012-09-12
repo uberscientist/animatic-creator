@@ -1,15 +1,8 @@
-#[ms after last frame, frame-name]
-#animatic = [[0, "4"]
-#            [150, "3"]
-#            [180, "2"]
-#            [280, "1"]]
+#animatic = [[time, name], [time, name]]
+
 $ = (id) -> document.getElementById(id)
 delay = (ms, func) -> animation = setTimeout func, ms
-Array.prototype.swap = (a,b) ->
-  this[a] = @splice(b, 1, this[a])[0]
-  return this
 
-nextOffset = 300
 scale = .1
 
 window.onload = () ->
@@ -36,8 +29,7 @@ window.onload = () ->
 window.addFrame = () ->
   name = $("insert-pic-select").value
   if name
-    time = nextOffset
-    #reset offset to default once used
+    time = 300
     frame = [time, name] #create animatic frame
     window.animatic.push(frame)
     drawTimeline(window.animatic)
@@ -49,6 +41,8 @@ window.drawTimeline = () ->
   dragged = null
   origWidth = null
   resizeStartX = null
+  selectedChunk = null
+  rol = 0
 
   #Remove chunks in order to draw them again
   timeline = $("timeline")
@@ -90,9 +84,12 @@ window.drawTimeline = () ->
       chunk_div.className = "chunk"
       chunk_div.index = index
       chunk_div.id = "chunk-" + index
+
+      #TODO
+      ### Time to take these out and make it select -> action
       chunk_div.appendChild(select_clone)
       chunk_div.appendChild(delete_link)
-
+      ###
       timeline.appendChild(chunk_div)
 
       #resize event listeners
@@ -120,7 +117,23 @@ window.drawTimeline = () ->
           resizing = this
       )
 
+      #select a chunk
+      chunk_div.addEventListener("click", (e) ->
+        #TODO
+        selected_chunk = this
+        chunks = document.getElementsByClassName("chunk")
+        for chunk in chunks
+          chunk.style.border = "1px black solid"
+
+        @style.border = "1px red solid"
+        @style.borderRight = "2px red solid"
+        @style.borderLeft = "2px red solid"
+        @style.marginRight = "0px"
+        @style.marginLeft = "0px"
+      )
+
       #setup frame options event listeners
+      #TODO Get rid of these 2
       select_clone.addEventListener("change", () ->
         animatic[@index][1] = @value
         drawTimeline()
@@ -138,7 +151,7 @@ window.drawTimeline = () ->
 
         #For FF
         e.dataTransfer.effectAllowed = 'move'
-        e.dataTransfer.setData('text/html', '#')
+        e.dataTransfer.setData('none', '')
       )
       chunk_div.addEventListener("dragend", () ->
         @style.opacity = '1'
@@ -147,10 +160,27 @@ window.drawTimeline = () ->
       chunk_div.addEventListener("dragover", (e) ->
         if (e.preventDefault)
           e.preventDefault() #Allows us to drop...
-        @style.borderLeft = "2px red dotted"
+
+        x = if e.offsetX then e.offsetX else e.layerX
+        chunkWidth = parseInt(@style.width.match(/\d*/))
+
+        if x < (chunkWidth/2)
+          #rol, Right or Left, 0 is left, 1 is right
+          rol = 0
+          @style.border = ""
+          @style.margin = ""
+          @style.borderLeft = "3px red solid"
+          @style.marginLeft = "0px"
+        else
+          rol = 1
+          @style.border = ""
+          @style.margin = ""
+          @style.borderRight = "3px red solid"
+          @style.marginRight = "0px"
+
       )
       chunk_div.addEventListener("dragleave", () ->
-        @style.borderLeft = ""
+        @style.border = ""
       )
       chunk_div.addEventListener("drop", (e) -> #emitted from dropped on element
         if(e.stopPropagation)
@@ -158,10 +188,10 @@ window.drawTimeline = () ->
 
           draggged = window.animatic[dragged.index]
           spliceOffset = if dragged.index > @index then 1 else 0
-          window.animatic.splice(@index,0,window.animatic[dragged.index])
+          window.animatic.splice(@index + rol, 0, window.animatic[dragged.index])
           window.animatic.splice(dragged.index + spliceOffset, 1)
 
-          @style.borderLeft = ""
+          @style.border = ""
           drawTimeline()
       )
 

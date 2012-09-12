@@ -1,7 +1,9 @@
 body {
   font-family: sans-serif;
   background-color: #DDDDDD;
+  user-select: none;
   -webkit-user-select: none;
+  -moz-user-select: none;
 }
 
 audio#audio {
@@ -57,23 +59,31 @@ div#tools-container {
 }
 
 div.tool {
+  position: relative;
+  left: 3px;
   width: 50px;
   height: 50px;
   margin: 1px auto;
-  border: 2px black solid;
+  border: 1px black solid;
   text-align: center;
   background-color: #FFF;
   float: left;
 }
 
 div.tool:first-child {
-  border: 2px red dotted;
+  background-color: #C3DBDF;
+  border-top-right-radius: 10px;
+}
+
+div.tool:last-child {
+  border-bottom-right-radius: 10px;
 }
 
 div.chunk {
-  border: 1px blue solid;
+  border: 1px black solid;
   border-radius: 5px;
-  margin: 1px;
+  margin-top: 2px;
+  margin-bottom: 2px;
   text-align: left;
   height: 48px;
   float: left;
@@ -82,11 +92,13 @@ div.chunk {
 }
 
 input.color {
+  position: relative;
+  left: 3px;
   width: 50px;
   height: 50px;
   margin: 1px auto;
   text-align: center;
-  border: 2px black solid;
+  border: 1px black solid;
   float: left;
 }
 

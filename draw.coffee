@@ -26,6 +26,34 @@ window.initCanvas = () ->
   onionCanvas.addEventListener("mousemove", (e) -> activeTool(e))
   onionCanvas.addEventListener("mouseup", (e) -> activeTool(e))
 
+window.initTools = () ->
+  tools = document.getElementsByClassName("tool")
+
+  for tool in tools
+    tool.addEventListener("click", (e) ->
+      if @id == "clear"
+        window.clearCanvas("draw")
+      else
+        window.tool = @id
+
+        tools = document.getElementsByClassName("tool")
+        srcEl = if e.srcElement then e.srcElement else e.target
+
+        for tool in tools
+          tool.style.border = "black 2px solid"
+
+        srcEl.style.border = "red 2px dotted"
+    )
+
+window.clearCanvas = (canvas_id) ->
+  canvas = $(canvas_id)
+  context = canvas.getContext("2d")
+  context.clearRect(0, 0, canvas.width, canvas.height)
+
+  if canvas_id == "draw"
+    context.fillStyle = "#FFF"
+    context.fillRect(0,0, canvas.width, canvas.height)
+
 activeTool = (e) ->
   canvas = $("draw")
   context = canvas.getContext("2d")
@@ -133,22 +161,3 @@ activeTool = (e) ->
                 reachRight = false
             pixelPos += canvasWidth * 4
         context.putImageData(colorLayer, 0, 0)
-
-window.initTools = () ->
-  tools = document.getElementsByClassName("tool")
-  for tool in tools
-    tool.addEventListener("click", (e) ->
-      if @id == "clear"
-        window.clearCanvas("draw")
-      else
-        window.tool = @id
-    )
-
-window.clearCanvas = (canvas_id) ->
-  canvas = $(canvas_id)
-  context = canvas.getContext("2d")
-  context.clearRect(0, 0, canvas.width, canvas.height)
-
-  if canvas_id == "draw"
-    context.fillStyle = "#FFF"
-    context.fillRect(0,0, canvas.width, canvas.height)

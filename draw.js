@@ -36,6 +36,42 @@
     });
   };
 
+  window.initTools = function() {
+    var tool, tools, _i, _len, _results;
+    tools = document.getElementsByClassName("tool");
+    _results = [];
+    for (_i = 0, _len = tools.length; _i < _len; _i++) {
+      tool = tools[_i];
+      _results.push(tool.addEventListener("click", function(e) {
+        var srcEl, _j, _len1;
+        if (this.id === "clear") {
+          return window.clearCanvas("draw");
+        } else {
+          window.tool = this.id;
+          tools = document.getElementsByClassName("tool");
+          srcEl = e.srcElement ? e.srcElement : e.target;
+          for (_j = 0, _len1 = tools.length; _j < _len1; _j++) {
+            tool = tools[_j];
+            tool.style.border = "black 2px solid";
+          }
+          return srcEl.style.border = "red 2px dotted";
+        }
+      }));
+    }
+    return _results;
+  };
+
+  window.clearCanvas = function(canvas_id) {
+    var canvas, context;
+    canvas = $(canvas_id);
+    context = canvas.getContext("2d");
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    if (canvas_id === "draw") {
+      context.fillStyle = "#FFF";
+      return context.fillRect(0, 0, canvas.width, canvas.height);
+    }
+  };
+
   activeTool = function(e) {
     var canvas, canvasHeight, canvasWidth, color, colorLayer, colorPixel, color_select, context, drawingBoundTop, i, matchStartColor, newPos, pixel, pixelPos, pixelStack, reachLeft, reachRight, startPix, width, x, y;
     canvas = $("draw");
@@ -162,34 +198,6 @@
         }
         return context.putImageData(colorLayer, 0, 0);
       }
-    }
-  };
-
-  window.initTools = function() {
-    var tool, tools, _i, _len, _results;
-    tools = document.getElementsByClassName("tool");
-    _results = [];
-    for (_i = 0, _len = tools.length; _i < _len; _i++) {
-      tool = tools[_i];
-      _results.push(tool.addEventListener("click", function(e) {
-        if (this.id === "clear") {
-          return window.clearCanvas("draw");
-        } else {
-          return window.tool = this.id;
-        }
-      }));
-    }
-    return _results;
-  };
-
-  window.clearCanvas = function(canvas_id) {
-    var canvas, context;
-    canvas = $(canvas_id);
-    context = canvas.getContext("2d");
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    if (canvas_id === "draw") {
-      context.fillStyle = "#FFF";
-      return context.fillRect(0, 0, canvas.width, canvas.height);
     }
   };
 

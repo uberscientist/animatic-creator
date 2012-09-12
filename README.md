@@ -1,4 +1,5 @@
 README
 =========
-Only works in chrome/chromium for now (because of the event.offsetX/Y is only natively in chrome)
-I'll fix it up sometime, but I'm just making it for me, for now!
+Yet another browser animation thing. I just discovered today there's some out there, but nothing with this sort of animatic friendly interface.
+
+It may turn into a GIF studio sometime since I've found out there's a library to encode animated gifs from canvas pixel arrays. woot.

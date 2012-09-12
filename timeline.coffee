@@ -27,6 +27,7 @@ window.onload = () ->
   #Setup onplaying event listener to start animatic
   $("audio").addEventListener("playing", (e) -> startAnimatic())
 
+  #Scale timeline based on range slider
   $("scale-range").addEventListener("change", (e) ->
     scale = @value
     drawTimeline()
@@ -101,7 +102,7 @@ window.drawTimeline = () ->
       )
 
       chunk_div.addEventListener("mousemove", (e) ->
-        x = e.offsetX
+        x = if e.offsetX then e.offsetX else e.layerX
         chunkWidth = parseInt(@style.width.match(/\d*/))
 
         if x > chunkWidth - 20 and x < chunkWidth - 5
@@ -131,9 +132,13 @@ window.drawTimeline = () ->
       )
 
       #Dragging chunks event listeners
-      chunk_div.addEventListener("dragstart", () ->
+      chunk_div.addEventListener("dragstart", (e) ->
         @style.opacity = '0.4'
         dragged = this
+
+        #For FF
+        e.dataTransfer.effectAllowed = 'move'
+        e.dataTransfer.setData('text/html', '#')
       )
       chunk_div.addEventListener("dragend", () ->
         @style.opacity = '1'

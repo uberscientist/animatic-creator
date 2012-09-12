@@ -6,7 +6,8 @@ window.initTabs = () ->
     tab.addEventListener("click", (e) ->
       for tab in tabs
         tab.style.backgroundColor = "#C3DBDF"
-      e.srcElement.style.backgroundColor = "#FFF"
+      srcEl = if e.srcElement then e.srcElement else e.target
+      srcEl.style.backgroundColor = "#FFF"
 
       switch @id
         when "tab-animatic"
@@ -25,6 +26,9 @@ window.initTabs = () ->
           $("options-container").style.display = "block"
           $("draw-container").style.display = "none"
     )
+
+window.message = (msg) ->
+  alert msg
 
 #for the stinkin' onion checkbox
 window.initOnion = () ->
@@ -72,11 +76,6 @@ window.cloneFrame = () ->
   createFrameList()
   $("edit-select").value = $("insert-pic-select").value
 
-window.clearCanvas = (canvas_id) ->
-  canvas = $(canvas_id)
-  context = canvas.getContext("2d")
-  context.clearRect(0, 0, canvas.width, canvas.height)
-
 createFrameList = () ->
   select = $("insert-pic-select")
   select.options.length = 0 #clear options
@@ -88,18 +87,22 @@ createFrameList = () ->
   createOtherSelects(select)
 
 turnOnOnion = () ->
-  frame = $("onion-select").value
-  onion_toggle = $("onion-toggle")
-  clearCanvas("onion-canvas")
+  onionSelect = $("onion-select")
+  if onionSelect
+    frame = onionSelect.value
+    onion_toggle = $("onion-toggle")
+    clearCanvas("onion-canvas")
 
-  if onion_toggle.checked
-    onion_canvas = $("onion-canvas")
-    context = onion_canvas.getContext("2d")
-    context.globalAlpha = .2
-    img_obj = new Image()
-    img_obj.src = window.frames[frame]
-    img_obj.onload = () ->
-      context.drawImage(img_obj, 0, 0)
+    if onion_toggle.checked
+      onion_canvas = $("onion-canvas")
+      context = onion_canvas.getContext("2d")
+      context.globalAlpha = .2
+      img_obj = new Image()
+      img_obj.src = window.frames[frame]
+      img_obj.onload = () ->
+        context.drawImage(img_obj, 0, 0)
+  else
+    message "You must have a frame to create an onion skin"
 
 editFrame = (frame) ->
   clearCanvas("draw")

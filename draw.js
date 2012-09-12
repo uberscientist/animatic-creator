@@ -11,36 +11,40 @@
   drop = false;
 
   window.initCanvas = function() {
-    var canvas, context;
+    var drawCanvas, drawContext, onionCanvas, onionContext;
     window.tool = "pencil";
-    canvas = $("draw");
-    context = canvas.getContext("2d");
-    canvas.addEventListener("mouseover", function(e) {
+    onionCanvas = $("onion-canvas");
+    drawCanvas = $("draw");
+    onionContext = onionCanvas.getContext("2d");
+    drawContext = drawCanvas.getContext("2d");
+    drawContext.fillStyle = "#FFF";
+    drawContext.fillRect(0, 0, drawCanvas.width, drawCanvas.height);
+    onionCanvas.addEventListener("mouseover", function(e) {
       return document.body.style.cursor = "crosshair";
     });
-    canvas.addEventListener("mouseout", function(e) {
+    onionCanvas.addEventListener("mouseout", function(e) {
       return document.body.style.cursor = "default";
     });
-    canvas.addEventListener("mousedown", function(e) {
+    onionCanvas.addEventListener("mousedown", function(e) {
       return activeTool(e);
     });
-    canvas.addEventListener("mousemove", function(e) {
+    onionCanvas.addEventListener("mousemove", function(e) {
       return activeTool(e);
     });
-    return canvas.addEventListener("mouseup", function(e) {
+    return onionCanvas.addEventListener("mouseup", function(e) {
       return activeTool(e);
     });
   };
 
   activeTool = function(e) {
-    var canvas, canvasHeight, canvasWidth, color, colorLayer, colorPixel, color_select, context, drawingBoundTop, i, matchStartColor, mx, my, newPos, pixel, pixelPos, pixelStack, reachLeft, reachRight, startPix, width, x, y;
+    var canvas, canvasHeight, canvasWidth, color, colorLayer, colorPixel, color_select, context, drawingBoundTop, i, matchStartColor, newPos, pixel, pixelPos, pixelStack, reachLeft, reachRight, startPix, width, x, y;
     canvas = $("draw");
     context = canvas.getContext("2d");
     width = 3;
     color_select = $("color");
     color = "#" + color_select.value;
-    x = e.offsetX;
-    y = e.offsetY;
+    x = e.offsetX ? e.offsetX : e.layerX;
+    y = e.offsetY ? e.offsetY : e.layerY;
     if (window.tool === "pencil" || window.tool === "eraser") {
       if (window.tool === "pencil") {
         width = 3;
@@ -86,13 +90,11 @@
       }
     } else if (window.tool === "fill") {
       if (e.type === "mouseup") {
-        mx = e.offsetX;
-        my = e.offsetY;
         canvasWidth = canvas.width;
         canvasHeight = canvas.height;
         drawingBoundTop = 0;
         colorLayer = context.getImageData(0, 0, canvasWidth, canvasHeight);
-        pixelStack = [[mx, my]];
+        pixelStack = [[x, y]];
         pixelPos = (pixelStack[0][1] * canvasWidth + pixelStack[0][0]) * 4;
         startPix = (function() {
           var _i, _results;
@@ -178,6 +180,17 @@
       }));
     }
     return _results;
+  };
+
+  window.clearCanvas = function(canvas_id) {
+    var canvas, context;
+    canvas = $(canvas_id);
+    context = canvas.getContext("2d");
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    if (canvas_id === "draw") {
+      context.fillStyle = "#FFF";
+      return context.fillRect(0, 0, canvas.width, canvas.height);
+    }
   };
 
 }).call(this);

@@ -13,12 +13,13 @@
     for (_i = 0, _len = tabs.length; _i < _len; _i++) {
       tab = tabs[_i];
       _results.push(tab.addEventListener("click", function(e) {
-        var _j, _len1;
+        var srcEl, _j, _len1;
         for (_j = 0, _len1 = tabs.length; _j < _len1; _j++) {
           tab = tabs[_j];
           tab.style.backgroundColor = "#C3DBDF";
         }
-        e.srcElement.style.backgroundColor = "#FFF";
+        srcEl = e.srcElement ? e.srcElement : e.target;
+        srcEl.style.backgroundColor = "#FFF";
         switch (this.id) {
           case "tab-animatic":
             $("audio").style.display = "";
@@ -39,6 +40,10 @@
       }));
     }
     return _results;
+  };
+
+  window.message = function(msg) {
+    return alert(msg);
   };
 
   window.initOnion = function() {
@@ -98,13 +103,6 @@
     return $("edit-select").value = $("insert-pic-select").value;
   };
 
-  window.clearCanvas = function(canvas_id) {
-    var canvas, context;
-    canvas = $(canvas_id);
-    context = canvas.getContext("2d");
-    return context.clearRect(0, 0, canvas.width, canvas.height);
-  };
-
   createFrameList = function() {
     var frame, select;
     select = $("insert-pic-select");
@@ -117,19 +115,24 @@
   };
 
   turnOnOnion = function() {
-    var context, frame, img_obj, onion_canvas, onion_toggle;
-    frame = $("onion-select").value;
-    onion_toggle = $("onion-toggle");
-    clearCanvas("onion-canvas");
-    if (onion_toggle.checked) {
-      onion_canvas = $("onion-canvas");
-      context = onion_canvas.getContext("2d");
-      context.globalAlpha = .2;
-      img_obj = new Image();
-      img_obj.src = window.frames[frame];
-      return img_obj.onload = function() {
-        return context.drawImage(img_obj, 0, 0);
-      };
+    var context, frame, img_obj, onionSelect, onion_canvas, onion_toggle;
+    onionSelect = $("onion-select");
+    if (onionSelect) {
+      frame = onionSelect.value;
+      onion_toggle = $("onion-toggle");
+      clearCanvas("onion-canvas");
+      if (onion_toggle.checked) {
+        onion_canvas = $("onion-canvas");
+        context = onion_canvas.getContext("2d");
+        context.globalAlpha = .2;
+        img_obj = new Image();
+        img_obj.src = window.frames[frame];
+        return img_obj.onload = function() {
+          return context.drawImage(img_obj, 0, 0);
+        };
+      }
+    } else {
+      return message("You must have a frame to create an onion skin");
     }
   };
 

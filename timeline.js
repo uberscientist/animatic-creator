@@ -90,7 +90,7 @@
         });
         chunk_div.addEventListener("mousemove", function(e) {
           var chunkWidth, x;
-          x = e.offsetX;
+          x = e.offsetX ? e.offsetX : e.layerX;
           chunkWidth = parseInt(this.style.width.match(/\d*/));
           if (x > chunkWidth - 20 && x < chunkWidth - 5) {
             this.draggable = false;
@@ -115,9 +115,11 @@
           window.animatic.splice(parseInt(this.index), 1);
           return drawTimeline();
         });
-        chunk_div.addEventListener("dragstart", function() {
+        chunk_div.addEventListener("dragstart", function(e) {
           this.style.opacity = '0.4';
-          return dragged = this;
+          dragged = this;
+          e.dataTransfer.effectAllowed = 'move';
+          return e.dataTransfer.setData('text/html', '#');
         });
         chunk_div.addEventListener("dragend", function() {
           this.style.opacity = '1';

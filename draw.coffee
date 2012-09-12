@@ -5,19 +5,26 @@ drop = false
 
 window.initCanvas = () ->
   window.tool = "pencil"
-  canvas = $("draw")
-  context = canvas.getContext("2d")
 
-  canvas.addEventListener("mouseover", (e) ->
+  onionCanvas = $("onion-canvas")
+  drawCanvas = $("draw")
+  onionContext = onionCanvas.getContext("2d")
+  drawContext = drawCanvas.getContext("2d")
+
+  #white background
+  drawContext.fillStyle = "#FFF"
+  drawContext.fillRect(0,0,drawCanvas.width, drawCanvas.height)
+
+  onionCanvas.addEventListener("mouseover", (e) ->
     document.body.style.cursor = "crosshair"
   )
-  canvas.addEventListener("mouseout", (e) ->
+  onionCanvas.addEventListener("mouseout", (e) ->
     document.body.style.cursor = "default"
   )
 
-  canvas.addEventListener("mousedown", (e) -> activeTool(e))
-  canvas.addEventListener("mousemove", (e) -> activeTool(e))
-  canvas.addEventListener("mouseup", (e) -> activeTool(e))
+  onionCanvas.addEventListener("mousedown", (e) -> activeTool(e))
+  onionCanvas.addEventListener("mousemove", (e) -> activeTool(e))
+  onionCanvas.addEventListener("mouseup", (e) -> activeTool(e))
 
 activeTool = (e) ->
   canvas = $("draw")
@@ -25,8 +32,8 @@ activeTool = (e) ->
   width = 3
   color_select = $("color")
   color = "#" + color_select.value
-  x = e.offsetX
-  y = e.offsetY
+  x = if e.offsetX then e.offsetX else e.layerX
+  y = if e.offsetY then e.offsetY else e.layerY
 
   #Pencil and Eraser
   if window.tool == "pencil" or window.tool == "eraser"
@@ -74,15 +81,13 @@ activeTool = (e) ->
   #Fill
   else if window.tool == "fill"
     if e.type == "mouseup"
-        mx = e.offsetX
-        my = e.offsetY
 
         canvasWidth = canvas.width
         canvasHeight = canvas.height
         drawingBoundTop = 0
         colorLayer = context.getImageData(0,0,canvasWidth, canvasHeight)
         
-        pixelStack = [[mx, my]]
+        pixelStack = [[x, y]]
         pixelPos = (pixelStack[0][1] * canvasWidth + pixelStack[0][0]) * 4
 
         startPix = (colorLayer.data[pixelPos + i] for i in [0..3])
@@ -138,3 +143,12 @@ window.initTools = () ->
       else
         window.tool = @id
     )
+
+window.clearCanvas = (canvas_id) ->
+  canvas = $(canvas_id)
+  context = canvas.getContext("2d")
+  context.clearRect(0, 0, canvas.width, canvas.height)
+
+  if canvas_id == "draw"
+    context.fillStyle = "#FFF"
+    context.fillRect(0,0, canvas.width, canvas.height)

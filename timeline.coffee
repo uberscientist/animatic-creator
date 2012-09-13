@@ -29,8 +29,10 @@ window.onload = () ->
 
   #Delete the selected chunk
   $("delete-chunk-button").addEventListener("click", (e) ->
-    window.animatic.splice(selectedChunk.index, 1)
-    drawTimeline()
+    if selectedChunk
+      console.log selectedChunk
+      window.animatic.splice(selectedChunk.index, 1)
+      drawTimeline()
   )
 
 window.addFrame = () ->
@@ -38,7 +40,12 @@ window.addFrame = () ->
   if name
     time = 300
     frame = [time, name] #create animatic frame
-    window.animatic.push(frame)
+
+    if selectedChunk
+      window.animatic.splice(selectedChunk.index + 1, 0, frame)
+    else
+      window.animatic.push(frame)
+
     drawTimeline(window.animatic)
 
 window.drawTimeline = () ->
@@ -48,6 +55,7 @@ window.drawTimeline = () ->
   dragged = null
   origWidth = null
   resizeStartX = null
+  selectedChunk = null
   rol = 0
 
   #Remove chunks in order to draw them again

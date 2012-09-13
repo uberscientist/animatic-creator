@@ -81,18 +81,20 @@
 
   window.deleteFrame = function() {
     var chunk, frame, index, _i, _len, _ref;
-    frame = $("edit-select").value;
-    delete window.frames[frame];
-    _ref = window.animatic;
-    for (index = _i = 0, _len = _ref.length; _i < _len; index = ++_i) {
-      chunk = _ref[index];
-      if (chunk !== null && chunk[1] === frame) {
-        window.animatic[index] = null;
+    if ($("edit-select")) {
+      frame = $("edit-select").value;
+      delete window.frames[frame];
+      _ref = window.animatic;
+      for (index = _i = 0, _len = _ref.length; _i < _len; index = ++_i) {
+        chunk = _ref[index];
+        if (chunk !== null && chunk[1] === frame) {
+          window.animatic[index] = null;
+        }
       }
+      drawTimeline();
+      createFrameList();
+      return clearCanvas("draw");
     }
-    drawTimeline();
-    createFrameList();
-    return clearCanvas("draw");
   };
 
   window.cloneFrame = function() {

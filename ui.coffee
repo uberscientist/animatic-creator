@@ -60,15 +60,16 @@ window.saveFrame = () ->
   clearCanvas("draw")
 
 window.deleteFrame = () ->
-  frame = $("edit-select").value
-  delete window.frames[frame]
-  for chunk, index in window.animatic
-    #console.log "#{frame} index #{index} and #{chunk[1]}"
-    if chunk != null and chunk[1] == frame then window.animatic[index] = null
+  if $("edit-select")
+    frame = $("edit-select").value
+    delete window.frames[frame]
+    for chunk, index in window.animatic
+      #console.log "#{frame} index #{index} and #{chunk[1]}"
+      if chunk != null and chunk[1] == frame then window.animatic[index] = null
 
-  drawTimeline()
-  createFrameList()
-  clearCanvas("draw")
+    drawTimeline()
+    createFrameList()
+    clearCanvas("draw")
 
 window.cloneFrame = () ->
   data_url = $("draw").toDataURL()

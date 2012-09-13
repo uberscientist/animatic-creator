@@ -31,8 +31,11 @@
       return drawTimeline();
     });
     return $("delete-chunk-button").addEventListener("click", function(e) {
-      window.animatic.splice(selectedChunk.index, 1);
-      return drawTimeline();
+      if (selectedChunk) {
+        console.log(selectedChunk);
+        window.animatic.splice(selectedChunk.index, 1);
+        return drawTimeline();
+      }
     });
   };
 
@@ -42,7 +45,11 @@
     if (name) {
       time = 300;
       frame = [time, name];
-      window.animatic.push(frame);
+      if (selectedChunk) {
+        window.animatic.splice(selectedChunk.index + 1, 0, frame);
+      } else {
+        window.animatic.push(frame);
+      }
       return drawTimeline(window.animatic);
     }
   };
@@ -54,6 +61,7 @@
     dragged = null;
     origWidth = null;
     resizeStartX = null;
+    selectedChunk = null;
     rol = 0;
     timeline = $("timeline");
     if (timeline) {

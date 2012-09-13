@@ -53,13 +53,16 @@
 
     <!-- Timeline controls / view -->
     <div id='timeline-container'>
-      <div id='controls'>
+      <div class='controls'>
         <select id='insert-pic-select'></select>
-        <button id='insert-pic-button' onclick='window.addFrame()'>Add Frame</button>
-
-        <!-- range doesn't work in FF yet -->
-        <input id='scale-range' type='range' min='.01' max='1' step='.01' value='.1' />
+        <button id='insert-pic-button' onclick='window.addFrame()'>Add</button>
+        <button id='delete-chunk-button'>Delete</button>
       </div>
     </div>
+
+    <div id='bottom-controls' class='controls'>
+      Scale:<input id='scale-range' type='range' min='.01' max='1' step='.01' value='.1' />
+    </div>
+
   </div>
 </body>

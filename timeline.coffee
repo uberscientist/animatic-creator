@@ -4,6 +4,7 @@ $ = (id) -> document.getElementById(id)
 delay = (ms, func) -> animation = setTimeout func, ms
 
 scale = .1
+selectedChunk = null
 
 window.onload = () ->
   #create empties
@@ -26,6 +27,12 @@ window.onload = () ->
     drawTimeline()
   )
 
+  #Delete the selected chunk
+  $("delete-chunk-button").addEventListener("click", (e) ->
+    window.animatic.splice(selectedChunk.index, 1)
+    drawTimeline()
+  )
+
 window.addFrame = () ->
   name = $("insert-pic-select").value
   if name
@@ -41,7 +48,6 @@ window.drawTimeline = () ->
   dragged = null
   origWidth = null
   resizeStartX = null
-  selectedChunk = null
   rol = 0
 
   #Remove chunks in order to draw them again
@@ -85,11 +91,6 @@ window.drawTimeline = () ->
       chunk_div.index = index
       chunk_div.id = "chunk-" + index
 
-      #TODO
-      ### Time to take these out and make it select -> action
-      chunk_div.appendChild(select_clone)
-      chunk_div.appendChild(delete_link)
-      ###
       timeline.appendChild(chunk_div)
 
       #resize event listeners
@@ -100,7 +101,7 @@ window.drawTimeline = () ->
 
       chunk_div.addEventListener("mousemove", (e) ->
         x = if e.offsetX then e.offsetX else e.layerX
-        chunkWidth = parseInt(@style.width.match(/\d*/))
+        chunkWidth = parseInt(@style.width)
 
         if x > chunkWidth - 20 and x < chunkWidth - 5
           @draggable = false
@@ -119,8 +120,7 @@ window.drawTimeline = () ->
 
       #select a chunk
       chunk_div.addEventListener("click", (e) ->
-        #TODO
-        selected_chunk = this
+        selectedChunk = this
         chunks = document.getElementsByClassName("chunk")
         for chunk in chunks
           chunk.style.border = "1px black solid"
@@ -130,18 +130,6 @@ window.drawTimeline = () ->
         @style.borderLeft = "2px red solid"
         @style.marginRight = "0px"
         @style.marginLeft = "0px"
-      )
-
-      #setup frame options event listeners
-      #TODO Get rid of these 2
-      select_clone.addEventListener("change", () ->
-        animatic[@index][1] = @value
-        drawTimeline()
-      )
-
-      delete_link.addEventListener("click", () ->
-        window.animatic.splice(parseInt(@index),1)
-        drawTimeline()
       )
 
       #Dragging chunks event listeners
@@ -162,7 +150,7 @@ window.drawTimeline = () ->
           e.preventDefault() #Allows us to drop...
 
         x = if e.offsetX then e.offsetX else e.layerX
-        chunkWidth = parseInt(@style.width.match(/\d*/))
+        chunkWidth = parseInt(@style.width)
 
         if x < (chunkWidth/2)
           #rol, Right or Left, 0 is left, 1 is right
@@ -208,7 +196,7 @@ window.drawTimeline = () ->
   timeline_container.addEventListener("mousedown", (e) ->
     if resizing
       resizeStartX = e.pageX
-      origWidth = parseInt(resizing.style.width.match(/\d*/))
+      origWidth = parseInt(resizing.style.width)
   )
 
   timeline_container.addEventListener("mousemove", (e) ->
@@ -218,7 +206,7 @@ window.drawTimeline = () ->
 
   timeline_container.addEventListener("mouseup", (e) ->
     if resizing
-      width = parseInt(resizing.style.width.match(/\d*/))
+      width = parseInt(resizing.style.width)
       index = resizing.index
       animatic[index][0] = Math.round(width / scale)
 

@@ -23,6 +23,7 @@
     window.initTools();
     window.initTabs();
     window.initOnion();
+    window.initOptions();
     $("audio").addEventListener("playing", function(e) {
       return startAnimatic();
     });
@@ -215,7 +216,10 @@
           if (index === 0) {
             timeOffset = 0;
           } else {
-            timeOffset += window.animatic[index - 1][0];
+            frame = window.animatic[index - 1];
+            if (frame) {
+              timeOffset += frame[0];
+            }
           }
           return delay(timeOffset, function() {
             return view.style.backgroundImage = "url('" + image + "')";

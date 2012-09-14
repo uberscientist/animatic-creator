@@ -1,6 +1,6 @@
 body {
   font-family: sans-serif;
-  background-color: #DDDDDD;
+  background-color: #DDD;
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -12,12 +12,13 @@ audio#audio {
 
 canvas {
   position: absolute;
-  border: 1px solid black;
   top: 0px;
   left: 0px;
+  border: 1px solid black;
 }
 
 div#canvas-block {
+  position: relative;
   width: 640px;
   height: 400px;
   float: left;
@@ -47,6 +48,7 @@ div#pagewrap {
 
 div#draw-container {
   position: relative;
+  background-color: #DDD;
   width: 700px;
   height: 436px;
   display: none;
@@ -109,9 +111,15 @@ input#scale-range {
 
 div.controls {
   color: #DDDDDD;
-  background-color: #444444;
+  background-color: #444;
   border-radius: 5px;
   padding: 5px;
+}
+
+div#draw-toolbar-top {
+  width: 632px;
+  border-radius: 0px;
+  border-top-right-radius: 10px;
 }
 
 div#timeline-container {
@@ -119,8 +127,8 @@ div#timeline-container {
 }
 
 div#view-container {
-  background-image: linear-gradient(bottom, rgb(255,255,255) 94%, rgb(221,221,221) 26%);
-  background-image: -webkit-linear-gradient(bottom, rgb(255,255,255) 94%, rgb(221,221,221) 26%);
+  background-image: linear-gradient(bottom, rgb(255,255,255) 94%, rgb(221,221,221) 27%);
+  background-image: -webkit-linear-gradient(bottom, rgb(255,255,255) 94%, rgb(221,221,221) 27%);
   width: 640px;
   margin: 0px auto;
 }

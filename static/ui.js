@@ -155,7 +155,7 @@
 
   createOtherSelects = function(select) {
     var draw_container, edit_select, onion_select, save_button, select_clone, select_clone_0;
-    draw_container = $("draw-container");
+    draw_container = $("draw-toolbar-top");
     select_clone = select.cloneNode(true);
     select_clone.id = 'onion-select';
     select_clone.value = select.value;

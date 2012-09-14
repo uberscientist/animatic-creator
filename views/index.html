@@ -7,6 +7,7 @@
   <script src="jscolor/jscolor.js"></script>
   <script src="ui.js"></script>
   <script src="timeline.js"></script>
+  <script src="options.js"></script>
 </head>
 <body>
   <div id='pagewrap'>
@@ -18,9 +19,16 @@
 
     <!-- These are the drawing tools and canvases -->
       <div id='draw-container'>
-        <canvas id='draw' width=640 height=400>Browser needs to support canvas</canvas>
-        <canvas id='onion-canvas' width=640 height=400>Browser needs to support canvas</canvas>
-        <div id='canvas-block'></div>
+        <div class='controls' id='draw-toolbar-top'>
+          <button id='save-frame' onclick='window.saveFrame()'>Save</button>
+          <button id='save-frame' onclick='window.deleteFrame()'>Delete</button>
+          <button id='save-frame' onclick='window.cloneFrame()'>Clone</button>
+          <input id='onion-toggle' type="checkbox"></input>
+        </div>
+        <div id='canvas-block'>
+          <canvas id='draw' width=640 height=400>Browser needs to support canvas</canvas>
+          <canvas id='onion-canvas' width=640 height=400>Browser needs to support canvas</canvas>
+        </div>
         <div id='tools-container'>
           <div class='tool' id='pencil'>Pencil</div>
           <div class='tool' id='eraser'>Eraser</div>
@@ -29,25 +37,22 @@
           <input class='color' id='color' value="000000"></input>
           <div class='tool' id='clear'>Clear</div>
         </div>
-        <button id='save-frame' onclick='window.saveFrame()'>Save</button>
-        <button id='save-frame' onclick='window.deleteFrame()'>Delete</button>
-        <button id='save-frame' onclick='window.cloneFrame()'>Clone</button>
-        <input id='onion-toggle' type="checkbox"></input>
       </div>
 
     <!-- Options -->
       <div id='options-container'>
         <div id='options-save'>
-          Title:<input id='project-title' type='text'></input><br/>
-          Audio:<input id='audio-file' type='file'></input><br/>
-          <button id='project-save'>Save</button>
-          <button id='project-publish'>Publish</button>
+          <form action='http://localhost:3666/audioupload' method='post' enctype='multipart/form-data'>
+            Title:<input id='project-title' type='text'></input><br/>
+            Audio:<input id='audio-file' type='file' name='audio-file'></input><br/>
+            <button id='project-save'>Save</button>
+            <button id='project-publish'>Publish</button>
+            <input type='submit'></input>
+          </form>
         </div>
       </div>
 
       <audio id="audio" preload="auto" controls>
-        <source src="comic1.ogg" type="audio/ogg"/>
-        <source src="comic1.mp3" type="audio/mpeg"/>
       </audio>
     </div>
 

@@ -64,7 +64,6 @@ window.deleteFrame = () ->
     frame = $("edit-select").value
     delete window.frames[frame]
     for chunk, index in window.animatic
-      #console.log "#{frame} index #{index} and #{chunk[1]}"
       if chunk != null and chunk[1] == frame then window.animatic[index] = null
 
     drawTimeline()
@@ -118,7 +117,7 @@ editFrame = (frame) ->
 
 createOtherSelects = (select) ->
   #Create onion select list
-  draw_container = $("draw-container")
+  draw_container = $("draw-toolbar-top")
   select_clone = select.cloneNode(true)
   select_clone.id = 'onion-select'
   select_clone.value = select.value

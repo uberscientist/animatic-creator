@@ -18,6 +18,9 @@ window.onload = () ->
   window.initTabs()
   window.initOnion()
 
+  #initialize options tab
+  window.initOptions()
+
   #Setup onplaying event listener to start animatic
   $("audio").addEventListener("playing", (e) -> startAnimatic())
 
@@ -232,5 +235,7 @@ startAnimatic = () ->
           if index == 0
             timeOffset = 0
           else
-            timeOffset += window.animatic[index - 1][0]
+            frame = window.animatic[index - 1]
+            if frame
+              timeOffset += frame[0]
           delay timeOffset, -> view.style.backgroundImage = "url('#{image}')"
